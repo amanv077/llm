@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --color-brand-50: #f0f7ff;
+  --color-brand-100: #e0efff;
+  --color-brand-200: #b9d9ff;
+  --color-brand-300: #7dbeff;
+  --color-brand-400: #3a9eff;
+  --color-brand-500: #0d7cf2;
+  --color-brand-600: #005fd4;
+  --color-brand-700: #004dac;
+  --color-brand-800: #00408d;
+  --color-brand-900: #003673;
+
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f8fafc;
+  --color-surface-muted: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-border-subtle: #f1f5f9;
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+  --color-text-inverse: #ffffff;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-subtle);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* Prose styles for lesson content */
+.prose-lesson h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  margin-bottom: 0.75rem;
+}
+.prose-lesson h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+.prose-lesson h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose-lesson p {
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.prose-lesson ul, .prose-lesson ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--color-text-secondary);
+}
+.prose-lesson li {
+  margin-bottom: 0.3rem;
+  line-height: 1.7;
+}
+.prose-lesson code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  color: var(--color-brand-700);
+}
+.prose-lesson strong {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.prose-lesson a {
+  color: var(--color-brand-600);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-brand-200);
+}
+.prose-lesson a:hover {
+  border-bottom-color: var(--color-brand-600);
+}
+.prose-lesson blockquote {
+  border-left: 3px solid var(--color-brand-300);
+  padding-left: 1rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin: 1.5rem 0;
+}
+
+/* Transitions */
+.sidebar-link {
+  transition: all 0.15s ease;
+}
+
+/* Highlight animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
