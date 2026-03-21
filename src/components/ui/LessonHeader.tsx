@@ -7,13 +7,15 @@ interface LessonHeaderProps {
 
 export function LessonHeader({ title, subtitle }: LessonHeaderProps) {
   return (
-    <div className="mb-16 relative">
-      <div className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-emerald-500 rounded-full opacity-50" />
-      <h1 className="text-5xl font-black text-slate-900 tracking-tight mb-6 leading-tight">
+    <div className="mb-20">
+      <div className="flex items-center gap-4 mb-6">
+        <span className="h-[2px] w-12 bg-blue-600 rounded-full" />
+        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-300">Detailed Module</span>
+      </div>
+      <h1 className="text-[72px] font-normal text-slate-900 tracking-tighter mb-8 leading-[0.8] font-display">
         {title}
       </h1>
-      <div className="h-1 w-20 bg-slate-100 mb-8 rounded-full" />
-      <p className="text-xl text-slate-500 font-medium leading-[1.6] max-w-3xl">
+      <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-2xl border-l-[3px] border-slate-100 pl-8">
         {subtitle}
       </p>
     </div>

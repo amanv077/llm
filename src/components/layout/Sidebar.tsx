@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { CHAPTERS, getLessonPath } from "@/lib/constants/chapters";
 import { cn } from "@/lib/utils";
-import { ChevronDown, CheckCircle2, Circle } from "lucide-react";
+import { ChevronDown, CheckCircle2, Circle, GraduationCap } from "lucide-react";
 
 function getProgress(): Record<string, boolean> {
   if (typeof window === "undefined") return {};
@@ -23,7 +23,6 @@ export function Sidebar() {
 
   useEffect(() => {
     setProgress(getProgress());
-    // Auto-open current chapter
     const segs = pathname.split("/");
     const chSlug = segs[2];
     if (chSlug) setOpenChapters((prev) => ({ ...prev, [chSlug]: true }));
@@ -37,65 +36,63 @@ export function Sidebar() {
   const totalLessons = CHAPTERS.reduce((a, c) => a + c.lessons.length, 0);
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-64 bg-white border-r border-[#e2e8f0] flex flex-col z-20 overflow-hidden">
-      {/* Logo */}
-      <div className="flex-shrink-0 px-5 py-4 border-b border-[#e2e8f0]">
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#0d7cf2] to-[#6366f1] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-            L
+    <aside className="fixed top-0 left-0 h-screen w-72 bg-[#fffdf7] border-r border-slate-100 flex flex-col z-20 overflow-hidden shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+      {/* Logo Area */}
+      <div className="flex-shrink-0 px-8 py-8 border-b border-slate-50">
+        <Link href="/" className="flex flex-col gap-2 group">
+          <div className="flex items-center gap-3">
+             <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-lg transition-transform group-hover:scale-105 group-hover:rotate-3">
+               <GraduationCap className="w-6 h-6" />
+             </div>
+             <div className="font-black text-slate-900 text-lg tracking-tighter uppercase italic">Mastery</div>
           </div>
-          <div>
-            <div className="font-bold text-[#0f172a] text-sm leading-tight">LearnLLMs</div>
-            <div className="text-[10px] text-[#94a3b8]">Master AI Development</div>
-          </div>
+          <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mt-2">Technical Academy</div>
         </Link>
       </div>
 
-      {/* Progress bar */}
-      <div className="flex-shrink-0 px-5 py-3 border-b border-[#f1f5f9]">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[11px] font-medium text-[#475569]">Your Progress</span>
-          <span className="text-[11px] font-semibold text-[#0d7cf2]">
-            {completedCount}/{totalLessons}
+      {/* Modern Progress Tracking */}
+      <div className="flex-shrink-0 px-8 py-6 bg-white/50 border-b border-slate-50">
+        <div className="flex items-end justify-between mb-3 px-0.5">
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Your Rank</span>
+          <span className="text-[12px] font-black text-blue-600 leading-none">
+            {completedCount} <span className="text-slate-300">/</span> {totalLessons}
           </span>
         </div>
-        <div className="h-1.5 bg-[#f1f5f9] rounded-full overflow-hidden">
+        <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden p-0.5 ring-1 ring-slate-50">
           <div
-            className="h-full bg-gradient-to-r from-[#0d7cf2] to-[#6366f1] rounded-full transition-all duration-500"
+            className="h-full bg-blue-600 rounded-full transition-all duration-1000 ease-out"
             style={{ width: `${totalLessons > 0 ? (completedCount / totalLessons) * 100 : 0}%` }}
           />
         </div>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto py-3 px-2">
+      {/* Sharp Navigation */}
+      <nav className="flex-1 overflow-y-auto py-6 px-4 custom-scrollbar">
         {CHAPTERS.map((chapter) => {
           const chapterDone = chapter.lessons.filter((l) => progress[`${chapter.slug}/${l.slug}`]).length;
           const isOpen = openChapters[chapter.slug] ?? false;
 
           return (
-            <div key={chapter.id} className="mb-1">
-              {/* Chapter header */}
+            <div key={chapter.id} className="mb-2">
               <button
                 onClick={() => toggleChapter(chapter.slug)}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#f8fafc] transition-colors group"
+                className={cn(
+                  "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 group",
+                  isOpen ? "bg-white shadow-sm ring-1 ring-slate-100" : "hover:bg-white/50"
+                )}
               >
-                <span className="text-base flex-shrink-0">{chapter.icon}</span>
-                <span className="flex-1 text-left text-[13px] font-semibold text-[#0f172a] group-hover:text-[#0d7cf2] transition-colors truncate">
+                <span className="text-lg flex-shrink-0 grayscale group-hover:grayscale-0 transition-all">{chapter.icon}</span>
+                <span className="flex-1 text-left text-[13px] font-black text-slate-900 group-hover:text-blue-600 transition-colors truncate">
                   {chapter.title}
                 </span>
-                <span className="text-[10px] text-[#94a3b8] flex-shrink-0">
-                  {chapterDone}/{chapter.lessons.length}
-                </span>
                 <ChevronDown
-                  className={cn("w-3.5 h-3.5 text-[#94a3b8] flex-shrink-0 transition-transform duration-200", isOpen && "rotate-180")}
+                  className={cn("w-3.5 h-3.5 text-slate-300 flex-shrink-0 transition-transform duration-300", isOpen && "rotate-180")}
                 />
               </button>
 
-              {/* Lessons */}
               {isOpen && (
-                <div className="ml-4 mt-0.5 space-y-0.5 border-l border-[#e2e8f0] pl-3">
-                  {chapter.lessons.map((lesson, idx) => {
+                <div className="ml-6 mt-2 space-y-1 border-l-2 border-slate-50 pl-4 py-1">
+                  {chapter.lessons.map((lesson) => {
                     const href = getLessonPath(chapter.slug, lesson.slug);
                     const isActive = pathname === href;
                     const isDone = progress[`${chapter.slug}/${lesson.slug}`];
@@ -105,23 +102,18 @@ export function Sidebar() {
                         key={lesson.id}
                         href={href}
                         className={cn(
-                          "flex items-center gap-2 px-2 py-1.5 rounded-md text-[12px] transition-all group/lesson",
+                          "flex items-center gap-3 px-3 py-2 rounded-lg text-[12px] transition-all group/lesson",
                           isActive
-                            ? "bg-[#e0efff] text-[#005fd4] font-semibold"
-                            : "text-[#475569] hover:bg-[#f8fafc] hover:text-[#0f172a]"
+                            ? "bg-blue-50 text-blue-700 font-black shadow-sm"
+                            : "text-slate-400 font-bold hover:bg-white hover:text-slate-900"
                         )}
                       >
                         {isDone ? (
-                          <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-[#10b981]" />
+                          <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-emerald-500" />
                         ) : (
-                          <Circle className={cn("w-3.5 h-3.5 flex-shrink-0", isActive ? "text-[#0d7cf2]" : "text-[#cbd5e1]")} />
+                          <div className={cn("w-1.5 h-1.5 rounded-full", isActive ? "bg-blue-600" : "bg-slate-200")} />
                         )}
                         <span className="flex-1 leading-tight">{lesson.title}</span>
-                        {lesson.hasInteractive && (
-                          <span className="text-[9px] bg-[#f0f7ff] text-[#0d7cf2] px-1.5 py-0.5 rounded font-medium flex-shrink-0">
-                            ⚡
-                          </span>
-                        )}
                       </Link>
                     );
                   })}
@@ -132,10 +124,10 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Footer */}
-      <div className="flex-shrink-0 px-5 py-3 border-t border-[#f1f5f9]">
-        <p className="text-[10px] text-[#94a3b8] text-center">
-          Learn what matters · Build what works
+      {/* Footer Branding */}
+      <div className="flex-shrink-0 px-8 py-6 border-t border-slate-50 bg-white/30 backdrop-blur-sm">
+        <p className="text-[9px] font-black text-slate-300 text-center uppercase tracking-[0.4em]">
+           Engineering First
         </p>
       </div>
     </aside>

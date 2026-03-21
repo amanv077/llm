@@ -44,7 +44,7 @@ export function TopBar() {
   }, [prev, next, router]);
 
   return (
-    <header className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-[1400px] h-16 bg-white/70 backdrop-blur-xl border border-white/20 z-50 flex items-center justify-between px-8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.06)]">
+    <header className="w-full h-20 bg-[#fffff] border-b border-slate-100 flex items-center justify-between px-10">
       {/* Left: Home */}
       <Link href="/" className="flex items-center gap-3 group w-48 transition-opacity hover:opacity-80">
         <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-white p-2 flex-shrink-0 shadow-lg shadow-slate-900/10 transition-transform group-hover:scale-105 group-hover:rotate-3">
