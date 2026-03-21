@@ -44,45 +44,45 @@ export function TopBar() {
   }, [prev, next, router]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-b border-[#f1f5f9] z-50 flex items-center justify-between px-6 shadow-sm">
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-[1400px] h-16 bg-white/70 backdrop-blur-xl border border-white/20 z-50 flex items-center justify-between px-8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.06)]">
       {/* Left: Home */}
-      <Link href="/" className="flex items-center gap-2.5 group w-48 transition-opacity hover:opacity-80">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#10b981] to-[#047857] flex items-center justify-center text-white p-1.5 flex-shrink-0 shadow-sm transition-transform group-hover:scale-105">
+      <Link href="/" className="flex items-center gap-3 group w-48 transition-opacity hover:opacity-80">
+        <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-white p-2 flex-shrink-0 shadow-lg shadow-slate-900/10 transition-transform group-hover:scale-105 group-hover:rotate-3">
           <Home className="w-full h-full" />
         </div>
-        <span className="font-semibold text-[#0f172a] tracking-tight">All Topics</span>
+        <span className="font-extrabold text-slate-900 tracking-tight text-sm uppercase tracking-widest">Mastery</span>
       </Link>
 
       {/* Center: Current Title */}
-      <div className="hidden md:flex flex-1 justify-center items-center font-bold text-[#0f172a] text-[15px]">
+      <div className="hidden md:flex flex-1 justify-center items-center font-black text-slate-900 text-sm tracking-tight uppercase">
         {current ? (
-          <span className="flex items-center gap-2">
-            <span>{current.chapter.icon}</span> 
-            {current.lesson.title}
-          </span>
+          <div className="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 shadow-sm">
+            <span className="text-xl">{current.chapter.icon}</span> 
+            <span className="max-w-[200px] truncate">{current.lesson.title}</span>
+          </div>
         ) : (
-          "Learn LLMs"
+          <span className="text-slate-400 font-bold uppercase tracking-[0.2em] text-[10px]">Learning Path</span>
         )}
       </div>
 
       {/* Right: Pagination */}
       <div className="flex items-center justify-end gap-3 w-48">
         {current && (
-          <div className="flex items-center bg-[#f8fafc] rounded-full border border-[#f1f5f9] p-1 shadow-sm">
+          <div className="flex items-center bg-white rounded-xl border border-slate-100 p-1 shadow-sm">
             <Link 
               href={prev || "#"} 
-              className={`p-1.5 rounded-full transition-colors ${prev ? "hover:bg-white hover:shadow-sm text-[#475569]" : "opacity-30 pointer-events-none text-[#cbd5e1]"}`}
+              className={`p-1.5 rounded-lg transition-all ${prev ? "hover:bg-slate-50 text-slate-600 active:scale-95" : "opacity-20 pointer-events-none text-slate-300"}`}
             >
               <ChevronLeft className="w-4 h-4" />
             </Link>
             
-            <span className="text-[12px] font-bold text-[#475569] min-w-[36px] text-center px-1 font-mono">
-              {currentIndex + 1}/{total}
+            <span className="text-[11px] font-black text-slate-400 min-w-[44px] text-center px-2 font-mono tracking-tighter">
+              {currentIndex + 1} <span className="text-slate-200">/</span> {total}
             </span>
             
             <Link 
               href={next || "#"} 
-              className={`p-1.5 rounded-full transition-colors ${next ? "hover:bg-white hover:shadow-sm text-[#475569]" : "opacity-30 pointer-events-none text-[#cbd5e1]"}`}
+              className={`p-1.5 rounded-lg transition-all ${next ? "hover:bg-slate-50 text-slate-600 active:scale-95" : "opacity-20 pointer-events-none text-slate-300"}`}
             >
               <ChevronRight className="w-4 h-4" />
             </Link>
