@@ -1,43 +1,47 @@
 import { Callout } from "@/components/ui/Callout";
 import { StepCards } from "@/components/ui/StepCards";
+import { KeyTerms } from "@/components/ui/KeyTerms";
+import { LessonHeader } from "@/components/ui/LessonHeader";
 
 export default function PromptingBasicsPage() {
   return (
     <>
-      <p className="text-lg">
-        Many developers treat LLMs like humans, expecting them to implicitly understand what they want. 
-        But LLMs aren't humans; they are highly literal pattern matchers. If you ask a vague question, 
-        you will get a vague (and often bad) answer.
-      </p>
+      <LessonHeader 
+        title="Prompt Engineering Basics" 
+        subtitle="LLMs are highly literal pattern matchers. If you ask a vague question, you will get a vague answer. Better Prompts = Better AI results." 
+      />
+
+      <Callout icon="🎭" className="bg-[#f0f9ff] border-[#bae6fd] [&>div:last-child]:text-[#0369a1]">
+        <strong>Stop treating it like a human.</strong> <br/>
+        Don't be polite. Be precise. The more specific you are, the better the result.
+      </Callout>
 
       <h2>The Three Golden Pillars</h2>
       <p>
-        Every single prompt you write should contain these three structural elements:
+        Every professional prompt follows this simple 3-step formula:
       </p>
 
       <StepCards 
         steps={[
-          { icon: "🎭", title: "Role", description: "Who is the AI? (e.g., 'You are a senior frontend engineer')" },
-          { icon: "🎯", title: "Task", description: "What exactly do you want? (e.g., 'Write a React component')" },
-          { icon: "📜", title: "Format", description: "How should it be output? (e.g., 'Only output valid code')" },
+          { icon: "🎨", title: "Role", description: "Who is the AI? (Senior Dev, Poet, Lawyer)." },
+          { icon: "🎯", title: "Task", description: "What exactly do you want? (Summarize, Code, Debug)." },
+          { icon: "📜", title: "Format", description: "How should it be output? (JSON, Bullets, Table)." },
         ]}
       />
 
       <Callout icon="💡" className="bg-[#fffbeb] border-[#fde68a] [&>div:last-child]:text-[#92400e]">
-        <strong>Pro Tip: Zero-Shot vs Few-Shot</strong> <br/>
-        Giving the model an example of exactly the input/output pairs you want (Few-Shot) is mathematically 
-        proven to increase accuracy by up to 30%. Don't just tell it what to do—<em>show it</em>.
+        <strong>Show, Don't Just Tell:</strong> <br/>
+        Providing even one single example (Few-Shot) is mathematically proven to 
+        skyrocket common-sense reasoning and accuracy.
       </Callout>
 
-      <h2>Stop Using "Please"</h2>
-      <p>
-        Politeness literally wastes tokens. Saying, "<em>Could you please maybe write me a little function that might do X...</em>" 
-        makes the model's attention scatter across those unnecessary filler words.
-      </p>
-      
-      <p>
-        Instead, be extremely direct: "<strong>Write a function that does X.</strong>"
-      </p>
+      <KeyTerms 
+        terms={[
+          { name: "Zero-Shot", definition: "Asking a question with zero context or examples.", color: "#10b981" },
+          { name: "Few-Shot", definition: "Providing 1-3 examples in the prompt to guide the AI.", color: "#8b5cf6" },
+          { name: "Negative Prompt", definition: "Telling the AI exactly what NOT to do (e.g. 'No yapping').", color: "#ef4444" },
+        ]}
+      />
     </>
   );
 }

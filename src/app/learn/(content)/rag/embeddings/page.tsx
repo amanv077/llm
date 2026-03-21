@@ -1,38 +1,48 @@
 import { EmbeddingsInteractive } from "@/features/embeddings/EmbeddingsInteractive";
+import { LessonHeader } from "@/components/ui/LessonHeader";
+import { Callout } from "@/components/ui/Callout";
+import { StepCards } from "@/components/ui/StepCards";
+import { KeyTerms } from "@/components/ui/KeyTerms";
 
 export default function EmbeddingsPage() {
   return (
     <>
-      <p>
-        How does a computer understand that "cat" and "kitten" mean basically the same thing, 
-        but "cat" and "car" are completely different? The answer is <strong>Embeddings</strong>.
-      </p>
+      <LessonHeader 
+        title="Embeddings & Vectors" 
+        subtitle="How does a computer understand that 'cat' and 'kitten' mean basically the same thing? The answer is Embeddings — the bridge between language and machine math." 
+      />
 
       <EmbeddingsInteractive />
 
-      <h2>The Math of Meaning</h2>
-      <p>
-        An embedding model (like OpenAI's <code>text-embedding-3-small</code>) takes any piece of text 
-        and converts it into a long list of numbers—a vector. Often these vectors have thousands of dimensions.
-      </p>
-      <p>
-        In high-dimensional space, the distance between two vectors represents their semantic similarity. 
-        Words, sentences, or even entire documents with alike meanings will end up grouped closely together.
-      </p>
+      <Callout icon="🔢" className="bg-[#f0f9ff] border-[#bae6fd] [&>div:last-child]:text-[#0369a1]">
+        <strong>The Math of Meaning:</strong> <br/>
+        An embedding model takes any text and converts it into a long list of numbers—a <strong>Vector</strong>. 
+        Think of it as a 3D coordinate for the "vibe" of a word!
+      </Callout>
 
       <h2>Why Are Vectors Useful?</h2>
-      <ul>
-        <li><strong>Search:</strong> You can search for "canine companion" and find "dog," even though the exact words don't match.</li>
-        <li><strong>Clustering:</strong> You can automatically group thousands of customer support tickets by topic.</li>
-        <li><strong>Anomaly Detection:</strong> You can find the one document that doesn't fit the rest of the dataset.</li>
-      </ul>
+      <StepCards 
+        steps={[
+          { icon: "🔍", title: "Semantic Search", description: "Search for 'canine companion' and find 'dog' instantly." },
+          { icon: "📂", title: "Clustering", description: "Automatically group thousands of documents by their actual meaning." },
+          { icon: "🚨", title: "Anomalies", description: "Quickly spot the one document that doesn't fit the rest of the gang." },
+        ]}
+      />
 
-      <blockquote>
-        <p>
-          <strong>The Core of Modern AI:</strong> Embeddings are the bridge between human language and 
-          machine math. They are the engine that makes RAG (Retrieval-Augmented Generation) possible.
-        </p>
-      </blockquote>
+      <Callout icon="💎" className="bg-[#f3e8ff] border-[#e9d5ff] [&>div:last-child]:text-[#7e22ce]">
+        <strong>The Core of Modern AI:</strong> <br/>
+        Embeddings are why RAG (Retrieval-Augmented Generation) works. 
+        Instead of matching exact keywords, the AI finds the <strong>Closest Neighbor</strong> 
+        in a vast mathematical space!
+      </Callout>
+
+      <KeyTerms 
+        terms={[
+          { name: "Vector", definition: "A list of numbers that represents the 'meaning' of text.", color: "#8b5cf6" },
+          { name: "Dimensions", definition: "The number of coordinates in a vector (OpenAI uses ~1,536).", color: "#10b981" },
+          { name: "Similarity", definition: "How close two vectors are in space (usually measured by Cosine distance).", color: "#3b82f6" },
+        ]}
+      />
     </>
   );
 }

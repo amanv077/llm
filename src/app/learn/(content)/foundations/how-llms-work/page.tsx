@@ -1,9 +1,15 @@
 import { Callout } from "@/components/ui/Callout";
 import { StepCards } from "@/components/ui/StepCards";
+import { LessonHeader } from "@/components/ui/LessonHeader";
 
 export default function HowLlmsWorkPage() {
   return (
     <>
+      <LessonHeader 
+        title="How LLMs Work" 
+        subtitle="Deep inside every AI is a 'Transformer' architecture. This engine uses math to understand relationships between words and predict the future of a sentence." 
+      />
+
       <StepCards 
         steps={[
           { icon: "📝", title: "You type a prompt", description: '"Write a poem about code"' },

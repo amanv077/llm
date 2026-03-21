@@ -1,4 +1,8 @@
 import { CodeBlock } from "@/components/code/CodeBlock";
+import { Callout } from "@/components/ui/Callout";
+import { StepCards } from "@/components/ui/StepCards";
+import { KeyTerms } from "@/components/ui/KeyTerms";
+import { LessonHeader } from "@/components/ui/LessonHeader";
 
 export default function FirstApiCallPage() {
   const codeParams = `
@@ -24,10 +28,10 @@ console.log(data.choices[0].message.content);
 
   return (
     <>
-      <p>
-        Most developers interacting with LLMs use an API. You send a <strong>prompt</strong>, and 
-        the server responds with a <strong>completion</strong>. Let's look at the standard JSON payload.
-      </p>
+      <LessonHeader 
+        title="Your First API Call" 
+        subtitle="Most developers interact with LLMs via a REST API. You send a structured prompt, and the server responds with a completion — essentially a remote brain you can query from code." 
+      />
 
       <CodeBlock 
         code={codeParams} 
@@ -36,21 +40,37 @@ console.log(data.choices[0].message.content);
       />
 
       <h2>The Required Fields</h2>
-      <ul>
-        <li>
-          <code>model</code>: The foundation model you want the provider to use (e.g., <code>"gpt-4o"</code>, <code>"claude-3-5-sonnet-20240620"</code>).
-        </li>
-        <li>
-          <code>messages</code>: A structured array of previous conversation turns. This is required because LLMs are 
-          <strong>stateless</strong>. You must send the entire conversation history every time.
-        </li>
-      </ul>
+      <p>
+        To get a successful response, your request must contain these core building blocks:
+      </p>
+
+      <StepCards 
+        steps={[
+          { icon: "🤖", title: "model", description: "The foundation model you want to use (e.g., 'gpt-4o', 'claude-3-5')." },
+          { icon: "📜", title: "messages", description: "An array of conversation turns including system, user, and assistant roles." },
+          { icon: "🌡️", title: "temperature", description: "A number between 0 and 2 that controls the creativity of the output." },
+        ]}
+      />
+
+      <Callout icon="⚖️">
+        <strong>LLMs are Stateless:</strong> <br/>
+        An LLM does not remember your previous questions. If you ask <em>"What is my name?"</em> 
+        in a second request, it will forget unless you send the <strong>entire</strong> history 
+        back in the <code>messages</code> array!
+      </Callout>
 
       <h2>The Standard Response</h2>
       <p>
-        The API typically returns a large JSON object containing token usage stats and the actual response text, 
-        nested inside a <code>choices</code> array.
+        The API typically returns a large JSON object containing token usage stats and the actual response text.
       </p>
+
+      <KeyTerms 
+        terms={[
+          { name: "Choices", definition: "An array of possible completions (usually just one, called index 0).", color: "#8b5cf6" },
+          { name: "Usage", definition: "The total points (tokens) used for your prompt and the reply.", color: "#10b981" },
+          { name: "Finish Reason", definition: "Why the model stopped (e.g. 'stop' or 'length').", color: "#3b82f6" },
+        ]}
+      />
     </>
   );
 }

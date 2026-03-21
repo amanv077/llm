@@ -1,37 +1,51 @@
 import { TokenizerInteractive } from "@/features/tokenizer/TokenizerInteractive";
+import { Callout } from "@/components/ui/Callout";
+import { StepCards } from "@/components/ui/StepCards";
+import { KeyTerms } from "@/components/ui/KeyTerms";
+import { LessonHeader } from "@/components/ui/LessonHeader";
 
 export default function TokensPage() {
   return (
     <>
-      <p>
-        Models do not read actual letters or words. They read <strong>tokens</strong>. 
-        A token can be a single character, a part of a word, an entire word, or 
-        even a common phrase depending on the tokenizer used.
-      </p>
+      <LessonHeader 
+        title="Tokens & Tokenization" 
+        subtitle="Models do not read actual letters or words. They read tokens — the fundamental 'atoms' of language that the model can actually process." 
+      />
 
       <TokenizerInteractive />
 
+      <Callout icon="💡" className="bg-[#fffbeb] border-[#fde68a] [&>div:last-child]:text-[#92400e]">
+        <strong>Pro Tip:</strong> Open the interactive tokenizer above. Notice how "the" is one token, but "tokenization" is broken into three parts: <em>"token"</em>, <em>"iz"</em>, and <em>"ation"</em>.
+      </Callout>
+
       <h2>Why Tokens Matter</h2>
       <p>
-        Tokens are the fundamental unit of an LLM. Everything you do as an AI engineer 
-        revolves around counting and managing tokens:
+        Everything you do as an AI engineer revolves around counting and managing these tokens. 
+        They are the <strong>fundamental unit</strong> of information for Large Language Models.
       </p>
-      <ul>
-        <li><strong>Cost:</strong> LLM APIs charge you per 1,000 tokens (both input and output).</li>
-        <li><strong>Context Window:</strong> Models have a maximum limit of tokens they can "read" at once (e.g., 128k tokens for GPT-4o).</li>
-        <li><strong>Latency:</strong> Outputting tokens is the slowest part of generation. The more tokens generated, the longer the user waits.</li>
-      </ul>
+
+      <StepCards 
+        steps={[
+          { icon: "💸", title: "Cost", description: "LLM APIs charge you per 1,000 tokens (both input and output)." },
+          { icon: "📦", title: "Context Window", description: "Models have a maximum limit of tokens they can 'read' at once." },
+          { icon: "⏱️", title: "Latency", description: "The more tokens generated, the longer the user waits for the reply." },
+        ]}
+      />
 
       <h2>The "Strawberry" Problem</h2>
-      <p>
-        Because LLMs read tokens instead of letters, they notoriously struggle with character-level 
-        tasks (like counting the number of R's in the word "strawberry"). 
-      </p>
-      <p>
-        To the model, the word "strawberry" might just be a single token (e.g., Token ID: <code>45672</code>). 
-        It has no inherent understanding that this token is made of 10 letters unless it has been explicitly 
-        trained on that specific mapping or uses advanced reasoning steps (like OpenAI's o1 models).
-      </p>
+      <Callout icon="🍓" className="bg-[#fef2f2] border-[#fecaca] [&>div:last-child]:text-[#991b1b]">
+        <strong>Counting is hard for AI.</strong> <br/>
+        Because LLMs read <strong>tokens</strong> instead of letters, they struggle to count how many R's are in "strawberry". 
+        To the model, "strawberry" is just one or two token IDs, not a string of 10 letters!
+      </Callout>
+
+      <KeyTerms 
+        terms={[
+          { name: "Token ID", definition: "The unique number assigned to every token in the vocabulary.", color: "#8b5cf6" },
+          { name: "Vocabulary", definition: "The total number of unique tokens a model knows (usually 32k to 128k).", color: "#10b981" },
+          { name: "Compression", definition: "How many letters fit in one token (usually ~4 characters).", color: "#3b82f6" },
+        ]}
+      />
     </>
   );
 }

@@ -1,40 +1,48 @@
 import { Callout } from "@/components/ui/Callout";
 import { StepCards } from "@/components/ui/StepCards";
+import { KeyTerms } from "@/components/ui/KeyTerms";
+import { LessonHeader } from "@/components/ui/LessonHeader";
 
 export default function CopilotFundamentalsPage() {
   return (
     <>
-      <p className="text-lg">
-        AI Coding Assistants (like GitHub Copilot, Cursor, and Windsurf) have changed software engineering forever. 
-        Learning how to effectively "pair program" with these tools is arguably the single most important skill 
-        you can learn this decade.
-      </p>
+      <LessonHeader 
+        title="Copilot Fundamentals" 
+        subtitle="AI coding assistants have changed software engineering forever. Learning to 'pair program' with these tools is the #1 skill for the modern developer." 
+      />
 
-      <h2>The Three Types of AI Assistance</h2>
+      <h2>The Three AI Powers</h2>
       <p>
-        AI in your IDE generally takes three distinct forms:
+        AI in your code editor generally takes three distinct forms:
       </p>
 
       <StepCards 
         steps={[
-          { icon: "⌨️", title: "Autocomplete", description: "Ghost text that predicts the rest of your line or function as you type." },
-          { icon: "💬", title: "Chat / Sidebar", description: "A conversational interface where you can ask questions about your open files." },
-          { icon: "⚡", title: "Agents (Cmd+K)", description: "In-line edits where the AI physically rewrites your code files for you." },
+          { icon: "⌨️", title: "Autocomplete", description: "Predicts the rest of your line as you type. Fast and fluid." },
+          { icon: "💬", title: "Chat / Workspace", description: "Conversational interface to ask questions about your whole project." },
+          { icon: "🪄", title: "Edit / Agent", description: "In-line edits where the AI physically rewrites your code files for you." },
         ]}
       />
 
       <Callout icon="🧠" className="bg-[#f3e8ff] border-[#e9d5ff] [&>div:last-child]:text-[#7e22ce]">
-        <strong>The "Context" Secret:</strong> Copilot Autocomplete is brilliant, but it is effectively blind. 
-        It usually only "sees" the file you are currently editing and a few files you recently had open in other tabs. 
-        If you want it to use a specific utility function from another folder, <strong>open that file in a split tab</strong>.
+        <strong>The "Open Tab" Context:</strong> <br/>
+        Copilot is effectively blind. It mostly only "sees" the file you are currently editing. 
+        If you want it to know about a specific helper, <strong>open that file in a split tab</strong>.
       </Callout>
 
-      <h2>When NOT to use Copilot</h2>
-      <p>
-        AI creates code incredibly fast. This is dangerous if you are working in an unfamiliar legacy codebase. 
-        If you blindly accept a 50-line suggestion without understanding it, you have just introduced Technical Debt 
-        at the speed of light.
-      </p>
+      <Callout icon="⚠️" className="bg-[#fef2f2] border-[#fecaca] [&>div:last-child]:text-[#991b1b]">
+        <strong>The speed trap:</strong> <br/>
+        Bluntly accepting 50-line suggestions without reading them is how you introduce 
+        bugs at the speed of light. Always <strong>Review before you Accept</strong>.
+      </Callout>
+
+      <KeyTerms 
+        terms={[
+          { name: "Ghost Text", definition: "The greyed-out suggestions that appear as you are typing.", color: "#8b5cf6" },
+          { name: "Context", definition: "The limited set of files the AI is allowed to read from.", color: "#10b981" },
+          { name: "Deterministic", definition: "Unlike AI, normal code is predictable. AI is probabilistic (it guesses).", color: "#3b82f6" },
+        ]}
+      />
     </>
   );
 }

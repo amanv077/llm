@@ -15,10 +15,10 @@
   --color-brand-800: #00408d;
   --color-brand-900: #003673;
 
-  --color-surface: #ffffff;
+  --color-surface: #fcfcfd;
   --color-surface-subtle: #f8fafc;
-  --color-surface-muted: #f1f5f9;
-  --color-border: #e2e8f0;
+  --color-surface-muted: #f3f4f6;
+  --color-border: #eef2f6; 
   --color-border-subtle: #f1f5f9;
 
   --color-text-primary: #0f172a;

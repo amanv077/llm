@@ -1,19 +1,21 @@
 import { Callout } from "@/components/ui/Callout";
 import { StepCards } from "@/components/ui/StepCards";
 import { KeyTerms } from "@/components/ui/KeyTerms";
+import { LessonHeader } from "@/components/ui/LessonHeader";
 
 export default function WhatAreLlmsPage() {
   return (
     <>
-      <p className="text-lg">
-        Large Language Models are neural networks trained on massive text data. 
-        They predict <strong>what comes next</strong> — so well that they can write code, essays, and reason through complex problems.
-      </p>
+      <LessonHeader 
+        title="What Are LLMs?" 
+        subtitle="Large Language Models are neural networks trained on massive text data. They predict what comes next — so well that they can write code, essays, and reason through complex problems." 
+      />
 
       <Callout icon="✨">
         Think of an LLM as a super-powered autocomplete. It doesn't "know" things — it predicts the most likely next token based on math.
       </Callout>
 
+      <h2>The AI Loop</h2>
       <StepCards 
         steps={[
           { icon: "📝", title: "Input", description: "Text → tokens" },
