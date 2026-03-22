@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { CHAPTERS, getLessonPath } from "@/lib/constants/chapters";
 import { cn } from "@/lib/utils";
-import { ChevronDown, CheckCircle2, Circle, GraduationCap } from "lucide-react";
+import { ChevronDown, CheckCircle2, Circle, GraduationCap, X } from "lucide-react";
+import { useSidebar } from "./SidebarContext";
 
 function getProgress(): Record<string, boolean> {
   if (typeof window === "undefined") return {};
@@ -18,6 +19,9 @@ function getProgress(): Record<string, boolean> {
 
 export function Sidebar() {
   const pathname = usePathname();
+  const sidebarContext = useSidebar();
+  const isOpen = sidebarContext?.isOpen ?? false;
+  const closeSidebar = sidebarContext?.closeSidebar ?? (() => {});
   const [openChapters, setOpenChapters] = useState<Record<string, boolean>>({});
   const [progress, setProgress] = useState<Record<string, boolean>>({});
 
@@ -28,6 +32,12 @@ export function Sidebar() {
     if (chSlug) setOpenChapters((prev) => ({ ...prev, [chSlug]: true }));
   }, [pathname]);
 
+  useEffect(() => {
+    const handleStorage = () => setProgress(getProgress());
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
+
   const toggleChapter = (slug: string) => {
     setOpenChapters((prev) => ({ ...prev, [slug]: !prev[slug] }));
   };
@@ -36,19 +46,31 @@ export function Sidebar() {
   const totalLessons = CHAPTERS.reduce((a, c) => a + c.lessons.length, 0);
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-72 bg-[#fffdf7] border-r border-slate-100 flex flex-col z-20 overflow-hidden shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
-      {/* Logo Area */}
-      <div className="flex-shrink-0 px-8 py-8 border-b border-slate-50">
-        <Link href="/" className="flex flex-col gap-2 group">
-          <div className="flex items-center gap-3">
-             <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-lg transition-transform group-hover:scale-105 group-hover:rotate-3">
-               <GraduationCap className="w-6 h-6" />
-             </div>
-             <div className="font-black text-slate-900 text-lg tracking-tighter uppercase italic">Mastery</div>
-          </div>
-          <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mt-2">Technical Academy</div>
-        </Link>
-      </div>
+    <>
+      {/* Mobile Backdrop */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40 lg:hidden"
+          onClick={closeSidebar}
+        />
+      )}
+      <aside 
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 w-72 bg-[#fffdf7] border-r border-slate-100 flex flex-col overflow-hidden shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-all duration-300 ease-in-out lg:sticky lg:top-0 lg:h-screen lg:shrink-0",
+          isOpen ? "translate-x-0 lg:w-72 lg:opacity-100" : "-translate-x-full lg:w-0 lg:opacity-0 lg:border-r-0"
+        )}
+      >
+        {/* Header */}
+        <div className="h-20 flex-shrink-0 px-8 border-b border-slate-50 flex items-center justify-between">
+          <span className="font-extrabold text-slate-900 tracking-tight uppercase tracking-widest text-sm">Learning Path</span>
+          <button 
+            onClick={closeSidebar}
+            className="p-2 -mr-4 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-colors lg:hidden active:scale-95"
+            aria-label="Close sidebar"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
       {/* Modern Progress Tracking */}
       <div className="flex-shrink-0 px-8 py-6 bg-white/50 border-b border-slate-50">
@@ -71,6 +93,7 @@ export function Sidebar() {
         {CHAPTERS.map((chapter) => {
           const chapterDone = chapter.lessons.filter((l) => progress[`${chapter.slug}/${l.slug}`]).length;
           const isOpen = openChapters[chapter.slug] ?? false;
+          const isCurrentChapter = pathname.split("/")[2] === chapter.slug;
 
           return (
             <div key={chapter.id} className="mb-2">
@@ -78,11 +101,15 @@ export function Sidebar() {
                 onClick={() => toggleChapter(chapter.slug)}
                 className={cn(
                   "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 group",
-                  isOpen ? "bg-white shadow-sm ring-1 ring-slate-100" : "hover:bg-white/50"
+                  isOpen ? "bg-white shadow-sm ring-1 ring-slate-100" : "hover:bg-white/50",
+                  isCurrentChapter && !isOpen ? "bg-blue-50/50" : ""
                 )}
               >
-                <span className="text-lg flex-shrink-0 grayscale group-hover:grayscale-0 transition-all">{chapter.icon}</span>
-                <span className="flex-1 text-left text-[13px] font-black text-slate-900 group-hover:text-blue-600 transition-colors truncate">
+                <span className={cn("text-lg flex-shrink-0 grayscale transition-all", isCurrentChapter || isOpen ? "grayscale-0" : "group-hover:grayscale-0")}>{chapter.icon}</span>
+                <span className={cn(
+                  "flex-1 text-left text-[13px] font-black transition-colors truncate",
+                  isCurrentChapter ? "text-blue-600" : "text-slate-900 group-hover:text-blue-600"
+                )}>
                   {chapter.title}
                 </span>
                 <ChevronDown
@@ -101,6 +128,7 @@ export function Sidebar() {
                       <Link
                         key={lesson.id}
                         href={href}
+                        onClick={() => { if (window.innerWidth < 1024) closeSidebar() }}
                         className={cn(
                           "flex items-center gap-3 px-3 py-2 rounded-lg text-[12px] transition-all group/lesson",
                           isActive
@@ -131,5 +159,6 @@ export function Sidebar() {
         </p>
       </div>
     </aside>
+    </>
   );
 }

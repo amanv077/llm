@@ -85,14 +85,14 @@ export default function Home() {
           </header>
 
           {/* Curriculum List */}
-          <div className="space-y-32">
+          <div className="space-y-20">
             {CHAPTERS.map((chapter) => {
               const chapterCompleted = chapter.lessons.filter(l => progress[`${chapter.slug}/${l.slug}`]).length;
               const isChapterDone = chapterCompleted === chapter.lessons.length;
 
               return (
                 <section key={chapter.id}>
-                  <div className="flex items-center gap-6 mb-12">
+                  <div className="flex items-center gap-6 mb-8">
                     <div className="w-12 h-12 bg-slate-900 text-white rounded-xl flex items-center justify-center text-xl shadow-lg">
                       {chapter.icon}
                     </div>

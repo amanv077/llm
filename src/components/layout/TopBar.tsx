@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, ChevronLeft, ChevronRight } from "lucide-react";
+import { Home, ChevronLeft, ChevronRight, Menu } from "lucide-react";
 import { CHAPTERS, getLessonPath } from "@/lib/constants/chapters";
 import { useEffect } from "react";
+import { useSidebar } from "./SidebarContext";
 
 export function TopBar() {
   const pathname = usePathname();
   const router = useRouter();
+  const sidebar = useSidebar();
 
   // Find all lessons in order
   const allLessons = CHAPTERS.flatMap((c) => 
@@ -45,13 +47,24 @@ export function TopBar() {
 
   return (
     <header className="w-full h-20 bg-[#fffff] border-b border-slate-100 flex items-center justify-between px-10">
-      {/* Left: Home */}
-      <Link href="/" className="flex items-center gap-3 group w-48 transition-opacity hover:opacity-80">
-        <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-white p-2 flex-shrink-0 shadow-lg shadow-slate-900/10 transition-transform group-hover:scale-105 group-hover:rotate-3">
-          <Home className="w-full h-full" />
-        </div>
-        <span className="font-extrabold text-slate-900 tracking-tight text-sm uppercase tracking-widest">Mastery</span>
-      </Link>
+      {/* Left: Home and Sidebar Toggle */}
+      <div className="flex items-center gap-4 w-48">
+        {sidebar && (
+          <button 
+            onClick={sidebar.toggleSidebar}
+            className="p-2 -ml-2 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
+            aria-label="Toggle Sidebar"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        )}
+        <Link href="/" className="flex items-center gap-3 group transition-opacity hover:opacity-80">
+          <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-white p-2 flex-shrink-0 shadow-lg shadow-slate-900/10 transition-transform group-hover:scale-105 group-hover:rotate-3">
+            <Home className="w-full h-full" />
+          </div>
+          <span className="font-extrabold text-slate-900 tracking-tight text-sm uppercase tracking-widest hidden sm:inline-block">Mastery</span>
+        </Link>
+      </div>
 
       {/* Center: Current Title */}
       <div className="hidden md:flex flex-1 justify-center items-center font-black text-slate-900 text-sm tracking-tight uppercase">
